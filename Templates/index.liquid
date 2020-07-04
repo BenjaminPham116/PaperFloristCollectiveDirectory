@@ -5,7 +5,6 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   {{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'| script_tag}}
-  {{ 'main.js' | asset_url | script_tag }}
   {{ 'func1.js' | asset_url | script_tag }}
   
  
@@ -114,6 +113,7 @@
 
 
 		function constructTable(selector) {
+		    $("#testTable tr").remove(); 
             console.log("test")
 			// Getting the all column names
 			var cols = Headers(list, selector);
@@ -142,14 +142,15 @@
 
 			for (var i = 0; i < list.length; i++) {
 				var row = list[i];
-
+                var count = 0;
+                
 				for (var k in row) {
-					if ($.inArray(k, columns) == -1) {
+					if ($.inArray(k, columns) == -1 && (count != 0 && count < Object.keys(row).length -2 )) {
 						columns.push(k);
-
 						// Creating the header
 						header.append($('<th/>').html(k));
 					}
+					count+=1;
 				}
 			}
 
