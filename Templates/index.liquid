@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+
+<!-- Added ====================================================== -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  {{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'| script_tag}}
+  {{ 'main.js' | asset_url | script_tag }}
+  {{ 'func1.js' | asset_url | script_tag }}
+  
+ 
+  <head>
+    {% csrf_meta_tags %}
+    <title>
+      {% if page_title %}
+        {{ page_title }}
+      {% else %}
+        {{ current_site.title }}
+      {% endif %}
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}" />
+    {% endif %}
+    {% include "global_social_meta_tags" %}
+    {% if settings.favicon %}
+      <link href="{{ settings.favicon | image_picker_url: 'favicon.png' }}?v=2" rel="shortcut icon" />
+    {% else %}
+      <link href="{{ current_site.favicon_image | image_picker_url: 'favicon.png' }}?v=2" rel="shortcut icon" />
+    {% endif %}
+    <link rel="canonical" href="{{ canonical_url }}" />
+
+    <!-- Google Fonts ====================================================== -->
+    {% if settings.font_family_body == settings.font_family_heading %}
+      <link href="//fonts.googleapis.com/css?family={{ settings.font_family_body | replace: ' ', '+' }}:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    {% else %}
+      <link href="//fonts.googleapis.com/css?family={{ settings.font_family_body | replace: ' ', '+' }}:400,700,400italic,700italic|{{ settings.font_family_heading | replace: ' ', '+' }}:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    {% endif %}
+
+    <!-- Kajabi CSS ======================================================== -->
+    {{ "core.css" | kajabi_asset_url | stylesheet_tag }}
+
+    {% comment %}
+    <!-- Optional Bootstrap CSS - Remove the liquid comment tags to enable -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% endcomment %}
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    {{ "styles.css" | asset_url | stylesheet_tag }}
+
+    <!-- Customer CSS ====================================================== -->
+    {{ "overrides.css" | asset_url | stylesheet_tag }}
+    {% include "global_custom_css" %}
+
+    <!-- Kajabi Editor Only CSS ============================================ -->
+    {% if editor %}
+      {% include "editor_guides" %}
+      {% include "editor_grid" %}
+      {% include "editor_reveal" %}
+    {% endif %}
+
+    <!-- Header hook ======================================================= -->
+    {% content_for_header %}
+
+  </head>
+  <body>
+    {% include "global_exit_pop" %}
+    {% include "global_two_step" %}
+    {% section "header" %}
+    <main>
+      {% content_for_index %}
+    </main>
+    
+    
+<!-- Added ====================================================== -->
+	<button onclick="constructTable('#testTable')">
+		click here
+	</button>
+    <table class="table" id="testTable">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <script>
+
+
+		function constructTable(selector) {
+            console.log("test")
+			// Getting the all column names
+			var cols = Headers(list, selector);
+
+			// Traversing the JSON data
+			for (var i = 0; i < list.length; i++) {
+				var row = $('<tr/>');
+				for (var colIndex = 0; colIndex < cols.length; colIndex++)
+				{
+					var val = list[i][cols[colIndex]];
+
+					// If there is any key, which is matching
+					// with the column name
+					if (val == null) val = "";
+						row.append($('<td/>').html(val));
+				}
+
+				// Adding each row to the table
+				$(selector).append(row);
+			}
+		}
+
+		function Headers(list, selector) {
+			var columns = [];
+			var header = $('<tr/>');
+
+			for (var i = 0; i < list.length; i++) {
+				var row = list[i];
+
+				for (var k in row) {
+					if ($.inArray(k, columns) == -1) {
+						columns.push(k);
+
+						// Creating the header
+						header.append($('<th/>').html(k));
+					}
+				}
+			}
+
+			// Appending the header to the table
+			$(selector).append(header);
+				return columns;
+		}
+	</script>
+    
+    {% section "footer" %}
+    {% include "global_powered_by" %}
+    
+    
+    <!-- Javascripts ======================================================= -->
+    {{ "encore_core.js" | kajabi_asset_url | script_tag }}
+    {{ "scripts.js" | asset_url | script_tag }}
+
+    {% comment %}
+    <!-- Optional Bootstrap Javascript - Remove the liquid comment tags to enable -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% endcomment %}
+
+    <!-- Customer JS ======================================================= -->
+    {% include "global_custom_js" %}
+  </body>
+</html>
