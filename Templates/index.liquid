@@ -9,6 +9,50 @@
   
  
   <head>
+    <style>
+			#overlay {
+				position:fixed; 
+				width:100%;
+				height:100%;
+				background:#000;
+				opacity:0.5;
+				filter:alpha(opacity=50);
+				
+				 left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+			}
+
+			#modal {
+			    width:90%;
+			    height: auto;
+				position:absolute;
+				background:white;
+				border-radius:14px;
+				padding:8px;
+				
+				 left: 50%;
+    transform: translate(-50%,10%);
+
+			}
+
+			#content {
+			 height: auto;
+  min-height: 100%;
+  border-radius: 0;
+			}
+
+			#close {
+				position:absolute;
+				width:24px;
+				height:27px;
+				display:block;
+				top:5px;
+				right:5px;
+				color: #000
+			}
+	</style>
+  
     {% csrf_meta_tags %}
     <title>
       {% if page_title %}
@@ -75,91 +119,378 @@
     
     
 <!-- Added ====================================================== -->
-	<button onclick="constructTable('#testTable')">
-		click here
-	</button>
-    <table class="table" id="testTable">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    <script>
 
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script>
+		     info=`
+	<div id='testForm'>
+	    <Form id='placeForm'>
+              <p class="col-md-2" style="display:inline">  In This <b>Location:</b></p>
+              <input type="text" id="country" name="country" placeholder="Country" class="col-md-2">
+              <input type="text" id="state" name="state" placeholder="State/Province/District" class="col-md-2">
+              <input type="text" id="city" name="city" placeholder="city" class="col-md-2">
+        </Form>
+        
+        <Form id='styleForm'>
+            <div class="row row-no-padding">
+                   <Form>
+                    <p class="col-md-2" style="display:inline">  With This <b>Style:</b></p>
+                        
+                    <div class="col-md-2">
+                        <label for="Crepe" class="checkbox-inline">
+                        <input type="checkbox" id="Crepe" name="Crepe" value="Crepe">
+                        Crepe paper</label>
+                    </div>
+                   
+                    <div class="col-md-2">
+                        <label for="Cardstock" class="checkbox-inline">
+                        <input type="checkbox" id="Cardstock" name="Cardstock" value="Cardstock">
+                        Cardstock</label>
+                    </div>
+                    <div class="col-md-2">    
+                      <input type="checkbox" id="Realistic" name="Realistic" value="Realistic">
+                      <label for="Realistic">Realistic</label>
+                    </div>
+                    <div class="col-md-2">  
+                        <input type="checkbox" id="Fantasy" name="Fantasy" value="Fantasy">
+                        <label for="Fantasy"> Fantasy</label>
+                    </div>
+            </div>
+                
+            <div class="row" >
+                <p class="col-md-2" style="display:inline">  <i>(check all that apply)</i></p>
+                <div class="col-md-2">
+                    <label for="Wallflowers">
+                    <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Wallflowers">
+                     Wallflowers</label>
+                </div>
+               
+               <div class="col-md-2">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Large">
+                     Large flowers on stand</label>
+                </div>
+                
+                <div class="col-md-2">      
+                    <label for="XLarge">
+                    <input type="checkbox" id="XLarge" name="XLarge" value="XLarge">
+                     Extra large installations</label>
+                </div>
+                
+                <div class="col-md-2">
+                    <label for="OtherStyle">
+                    <input type="checkbox" id="OtherStyle" name="OtherStyle" value="OtherStyle">
+                     Other </label>
+                </div>
+            </div>
+        </Form>
+        
+        <Form  id='occasionForm'>
+           
+            <div class="row">
+                <p class="col-md-2" style="display:inline"> Who is</p>
+                    
+                <div class="col-md-2">
+                      <label for="Single">
+                      <input type="checkbox" id="Single" name="Single" value="Single">
+                       Single stems</label><br>
+                </div>
+                    
+                <div class="col-md-2">
+                    <label for="Wedding">
+                    <input type="checkbox" id="Wedding" name="Wedding" value="Wedding">
+                    Wedding</label><br>
+                </div>
+                  
+               <div class="col-md-2">
+                      <label for="Special">
+                      <input type="checkbox" id="Special" name="Special" value="Special">
+                      Special events</label><br>
+                </div>
+                  
+               <div class="col-md-2">
+                    <label for="Home">
+                    <input type="checkbox" id="Home" name="Home" value="Home">
+                    Home decor</label><br>
+                </div>
+            </div>
+                
+            <div class="row">
+                <p class="col-md-2" style="display:inline"><b>available for</b></p>
+                
+               <div class="col-md-2">
+                    <label for="Commercial"> 
+                    <input type="checkbox" id="Commercial" name="Commercial" value="Commercial">
+                    Commercial collaborations</label><br>
+                </div>
+                  
+                <div class="col-md-2">
+                      <label for="Window"> 
+                      <input type="checkbox" id="Window" name="Window" value="Window">
+                      Window Display</label><br>
+                </div>
+                  
+                <div class="col-md-2">
+                      <label for="Store"> 
+                      <input type="checkbox" id="Store" name="Store" value="Store">
+                      In-Store Display</label><br>
+                </div>
+                  
+                <div class="col-md-2">
+                      <label for="Wholesale">
+                      <input type="checkbox" id="Wholesale" name="Wholesale" value="Wholesale">
+                       Wholesale orders </label>
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-md-2" style="display:inline"> <i>(check all that apply)</i></p>
+                     
+               <div class="col-md-2">
+                      <label for="Workshop">
+                      <input type="checkbox" id="Workshop" name="Workshop" value="Workshop">
+                       Workshop </label>
+                </div>
+                  
+                <div class="col-md-2">
+                      <label for="Editorial">
+                      <input type="checkbox" id="Editorial" name="Editorial" value="Editorial">
+                       Editorial Shoot </label>
+                </div>
+                  
+                <div class="col-md-2">
+                      <input type="checkbox" id="OtherOccasion" name="OtherOccasion" value="OtherOccasion">
+                      <label for="OtherOccasion"> Other </label>
+               </div>
+            </div>
+        </Form>
+
+       <Form id='freshForm'>
+         <input type="checkbox" id="Arrange" name="Arrange" value="Arrange">
+         <label for="Arrange"> Can arange paper flowers with fresh flowers and foliage </label>
+          
+         <input type="checkbox" id="Provide" name="Provide" value="Provide">
+         <label for="Provide"> Can provide single stems and work with a fresh flower florist </label>
+          
+         <input type="checkbox" id="NotRelevant" name="NotRelevant" value="NotRelevant">
+         <label for="NotRelevant"> Not relevant </label>
+       </Form>
+         <div onclick="constructTable('#testTable')">
+	 	    click here
+	     </div>
+    </div>`
+		
+		
+		
+
+			var modal = (function(){
+				var 
+				method = {},
+				$overlay,
+				$modal,
+				$content,
+				$close;
+
+				// Center the modal in the viewport
+			/*	method.center = function () {
+					var top, left;
+
+					top = Math.max($(window).height() - $modal.outerHeight(), 0) / 2;
+					left = Math.max($(window).width() - $modal.outerWidth(), 0) / 2;
+
+					$modal.css({
+						top:top + $(window).scrollTop(), 
+						left:left + $(window).scrollLeft()
+					});
+				};*/
+
+				// Open the modal
+				method.open = function (settings) {
+					$content.empty().append(settings.content);
+
+				
+
+					$(window).bind('resize.modal', method.center);
+					$modal.show();
+					$overlay.show();
+				};
+
+				// Close the modal
+				method.close = function () {
+					$modal.hide();
+					$overlay.hide();
+					$content.empty();
+					$(window).unbind('resize.modal');
+				};
+
+				// Generate the HTML and add it to the document
+				$overlay = $('<div id="overlay"></div>');
+				$modal = $('<div id="modal"></div>');
+				$content = $('<div id="content"></div>');
+				$close = $('<a id="close" href="#">&times;</a>');
+
+				$modal.hide();
+				$overlay.hide();
+				$modal.append($content, $close);
+
+				$(document).ready(function(){
+					$('body').append($overlay, $modal);						
+				});
+
+				$close.click(function(e){
+					e.preventDefault();
+					method.close();
+				});
+
+				return method;
+			}());
+
+			// Wait until the DOM has loaded before querying the document
+			$(document).ready(function(){
+
+				$('a#howdy').click(function(e){
+					
+				});
+				window.onload = function() {
+          modal.open({content: info});
+        };
+			});
+		</script>
+	</head>
+      
+    
+    
+
+<div class="container">
+    <div id="dirTable" >
+    </div>
+</div>
+
+ 
+	
+    
+<!-- Added ====================================================== -->
+    <script>
+       
+        function queryDir(){
+          
+          var place = $('#placeForm').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+        
+         console.log(place)
+          var styles = $('#styleForm').serializeArray();
+         
+         console.log(styles);
+         
+          var occasions = $('#occasionForm').serializeArray();
+          var fresh = $('#freshForm').serializeArray();
+           
+           var query = list
+            if(place["Country"])
+            {
+               query = query.filter(florist => florist.Country==place["Country"]);
+            }
+             if(place["State"])
+            {
+               query = query.filter(florist => florist.State==place["State"]);
+            }
+             if(place["City"])
+            {
+               query = query.filter(florist => florist.City==place["City"]);
+            }
+            
+            if(styles.length > 0)
+            {
+                query =query.filter(function(florist) {
+                for(var i = 0; i < styles.length; i+= 1)
+                {
+                    console.log(styles[i].value)
+                    if(!florist.Styles.includes(styles[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+             if(occasions.length > 0)
+            {
+                query =query.filter(function(florist) {
+                for(var i = 0; i < occasions.length; i+= 1)
+                {
+                    if(!florist.Occasions.includes(occasions[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+            if(fresh.length > 0)
+            {
+                query =query.filter(function(florist) {
+                for(var i = 0; i < fresh.length; i+= 1)
+                {
+                    if(!florist.Fresh.includes(fresh[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+            return query
+        }
+        
 
 		function constructTable(selector) {
-		    $("#testTable tr").remove(); 
-            console.log("test")
-			// Getting the all column names
-			var cols = Headers(list, selector);
-
-			// Traversing the JSON data
+		
+		     document.getElementById("dirTable").innerHTML = '';
+		    
+		    var list = queryDir()
+		    var countrySort = new Object();
+		    
+		     
 			for (var i = 0; i < list.length; i++) {
-				var row = $('<tr/>');
-				for (var colIndex = 0; colIndex < cols.length; colIndex++)
-				{
-					var val = list[i][cols[colIndex]];
-
-					// If there is any key, which is matching
-					// with the column name
-					if (val == null) val = "";
-						row.append($('<td/>').html(val));
-				}
-
-				// Adding each row to the table
-				$(selector).append(row);
+			    
+			    if(countrySort[list[i]["Country"]] == undefined)
+			    {
+			        countrySort[list[i]["Country"]] =[]
+			    }
+			    
+			     countrySort[list[i]["Country"]].push(list[i]["State"])
+			}
+		    
+		    console.log(countrySort)
+			for (var i = 0; i < list.length; i++) {
+			    
+			    
+			    var div = document.createElement('div');
+                div.setAttribute('class', 'm-3');
+                div.className += " p-3";
+			    div.innerHTML += "<b>" + list[i]["Business"] + "</b>";
+			    div.innerHTML += ", " + list[i]["Name"]+ "<br><br>";
+			    
+			    div.innerHTML += "Email: " + list[i]["Email"];
+			    div.innerHTML +=  " | Website:" + list[i]["Website"];
+			    div.innerHTML +=  " | " + list[i]["Instagram"];
+			    div.innerHTML +=   " | Other: " + list[i]["Other"] + "<br><br>";
+			    
+			    div.innerHTML += "<b>Paper Flower Style: </b>" + list[i]["Styles"].toString() + "<br><br>";
+			    div.innerHTML += "<b>Available For: </b>" + list[i]["Occasions"].toString() + "<br><br>";
+			    div.innerHTML += "<b>Can: </b>" + list[i]["Fresh"].toString() + "<br><br>";
+			    
+			    div.style.borderStyle = "solid";
+				$("#dirTable").append(div)
 			}
 		}
 
-		function Headers(list, selector) {
-			var columns = [];
-			var header = $('<tr/>');
-
-			for (var i = 0; i < list.length; i++) {
-				var row = list[i];
-                var count = 0;
-                
-				for (var k in row) {
-					if ($.inArray(k, columns) == -1 && (count != 0 && count < Object.keys(row).length -2 )) {
-						columns.push(k);
-						// Creating the header
-						header.append($('<th/>').html(k));
-					}
-					count+=1;
-				}
-			}
-
-			// Appending the header to the table
-			$(selector).append(header);
-				return columns;
-		}
 	</script>
-    
+    -
     {% section "footer" %}
     {% include "global_powered_by" %}
     
