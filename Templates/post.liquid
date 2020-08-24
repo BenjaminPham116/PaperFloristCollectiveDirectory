@@ -1,9 +1,9 @@
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   {{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'| script_tag}}
-  {{ 'func1.js' | asset_url | script_tag }}
+  {{ 'florists.js' | asset_url | script_tag }}
   {{ 'vendors.js' | asset_url | script_tag }}
-
+  
   <head>
     <style>
 		#overlay {
@@ -94,11 +94,10 @@
             </div
             
          </div>
-    </div>
-  </div>
-  
         <div id="dirTable" class="mt-4">
         </div>
+    </div>
+  </div>
 </div>
 
  
@@ -110,9 +109,10 @@
 	    <Form id='placeForm' style="left:50%">
     	    <div class="row" style="margin-top:10px">
                   <p class="col-md-2" style="display:inline;">  In This <b>Location:</b></p>
-                  <input type="text" style="padding:0px;border-width:thin" id="country" name="country" placeholder="Country" class="col-md-3">
-                  <input type="text" style="padding:0px;border-width:thin" id="state" name="state" placeholder="State/Province/District" class="col-md-3">
-                  <input type="text" style="padding:0px;border-width:thin;" id="city" name="city" placeholder="city" class="col-md-3">
+                 <select type="text" style="padding:0px;border-width:thin" id="country" name="country" placeholder="Country" class="col-md-3">
+                  </select>
+                  <select type="text" style="padding:0px;border-width:thin" id="state" name="state" placeholder="State/Province/District" class="col-md-3"></select>
+                  <select type="text" style="padding:0px;border-width:thin;" id="city" name="city" placeholder="city" class="col-md-3"></select>
             </div>
         </Form>
         
@@ -279,9 +279,10 @@
 	    <Form id='placeForm' style="left:50%">
     	    <div class="row" style="margin-top:10px">
                   <p class="col-md-2" style="display:inline;">  In This <b>Location:</b></p>
-                  <input type="text" style="padding:0px;border-width:thin" id="country" name="country" placeholder="Country" class="col-md-3">
-                  <input type="text" style="padding:0px;border-width:thin" id="state" name="state" placeholder="State/Province/District" class="col-md-3">
-                  <input type="text" style="padding:0px;border-width:thin;" id="city" name="city" placeholder="city" class="col-md-3">
+                  <select type="text" style="padding:0px;border-width:thin" id="country" name="country" placeholder="Country" class="col-md-3">
+                  </select>
+                  <select type="text" style="padding:0px;border-width:thin" id="state" name="state" placeholder="State/Province/District" class="col-md-3"></select>
+                  <select type="text" style="padding:0px;border-width:thin;" id="city" name="city" placeholder="city" class="col-md-3"></select>
             </div>
         </Form>
         
@@ -616,11 +617,6 @@
 				return method;
 			}());
 
-			// Wait until the DOM has loaded before querying the document
-    		window.onload = function() {
-              modal.open({content: vendor});
-            };
-			console.log("yo")
 		</script>
 	</head>
      
@@ -629,11 +625,132 @@
     
 <!-- Added ====================================================== -->
     <script>
+   
        function openFlorists(){
            modal.open({content: florist});
+           var country = $('#country')
+            var countries = []
+             var option = document.createElement('option');
+            option.value = ""
+            option.text = "Country"
+            country.append(option)
+            countries.push("")
+            
+            for(var i = 0; i < floristTable.length; i++){
+                var val = floristTable[i].Country.toUpperCase()
+                if(!countries.includes(val)){
+                    
+                    countries.push(val)
+                    var option = document.createElement('option');
+                    option.value = val
+                    option.text = val
+                    
+                    country.append(option)
+                }
+            }
+            
+             var state = $('#state')
+            var states = []
+            var option = document.createElement('option');
+            option.value = ""
+            option.text = "State"
+            state.append(option)
+            states.push("")
+            for(var i = 0; i < floristTable.length; i++){
+                var val = floristTable[i].State.toUpperCase()
+                if(!states.includes(val)){
+                    
+                    states.push(val)
+                    var option = document.createElement('option');
+                    option.value = val
+                    option.text = val
+                    
+                    state.append(option)
+                }
+            }
+            
+             var city = $('#city')
+            var cities = []
+            var option = document.createElement('option');
+            option.value = ""
+            option.text = "City"
+            cities.push("")
+            city.append(option)
+            for(var i = 0; i < floristTable.length; i++){
+                var val = floristTable[i].City.toUpperCase()
+                if(!cities.includes(val)){
+                    
+                    cities.push(val)
+                    var option = document.createElement('option');
+                    option.value = val
+                    option.text = val
+                    
+                    city.append(option)
+                }
+            }
        }
        function openVendors(){
            modal.open({content: vendor});
+            var country = $('#country')
+            var countries = []
+             var option = document.createElement('option');
+            option.value = ""
+            option.text = "Country"
+            country.append(option)
+            countries.push("")
+            
+            for(var i = 0; i < vendorTable.length; i++){
+                var val = vendorTable[i].Country.toUpperCase()
+                if(!countries.includes(val)){
+                    
+                    countries.push(val)
+                    var option = document.createElement('option');
+                    option.value = val
+                    option.text = val
+                    
+                    country.append(option)
+                }
+            }
+            
+             var state = $('#state')
+            var states = []
+            var option = document.createElement('option');
+            option.value = ""
+            option.text = "State"
+            state.append(option)
+            states.push("")
+            for(var i = 0; i < vendorTable.length; i++){
+                var val = vendorTable[i].State.toUpperCase()
+                if(!states.includes(val)){
+                    
+                    states.push(val)
+                    var option = document.createElement('option');
+                    option.value = val
+                    option.text = val
+                    
+                    state.append(option)
+                }
+            }
+            
+             var city = $('#city')
+            var cities = []
+            var option = document.createElement('option');
+            option.value = ""
+            option.text = "City"
+            cities.push("")
+            city.append(option)
+            for(var i = 0; i < vendorTable.length; i++){
+                var val = vendorTable[i].City.toUpperCase()
+                if(!cities.includes(val)){
+                    
+                    cities.push(val)
+                    var option = document.createElement('option');
+                    option.value = val
+                    option.text = val
+                    
+                    city.append(option)
+                }
+            }
        }
       
         function queryFlorists(){
@@ -718,6 +835,7 @@
 		     document.getElementById("dirTable").innerHTML = '';
 		    
 		    var list = queryFlorists()
+		    
 		    var countrySort = new Object();
 		    
             	for (var i = 0; i < list.length; i++) {
@@ -747,7 +865,13 @@
 				$("#dirTable").append(div)
 			
             }
-		
+            if(list.length >0){
+                modal.close();
+            }
+            else{
+               	alert("Sorry, nothing matches that criteria"); 
+            }
+		    
 		}
 		
 		 function queryVendors(){
@@ -859,10 +983,13 @@
 			    div.style.borderColor = "pink";
 			    div.style.borderWidth= "5px";
 				$("#dirTable").append(div)
-			
             }
-		
+		     if(list.length >0){
+                modal.close();
+            }
+            else{
+               	alert("Sorry, nothing matches that criteria"); 
+            }
+		    
 		}
-
-
 	</script>
