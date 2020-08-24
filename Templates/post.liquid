@@ -1,0 +1,868 @@
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  {{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'| script_tag}}
+  {{ 'func1.js' | asset_url | script_tag }}
+  {{ 'vendors.js' | asset_url | script_tag }}
+
+  <head>
+    <style>
+		#overlay {
+             z-index: 3000;
+			position:fixed; 
+			width:100%;
+			height:100%;
+			background:#000;
+			opacity:0.5;
+			filter:alpha(opacity=50);
+			
+		    left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+		}
+		#modal {
+             z-index: 3001;
+		    width:80%;
+		    height: auto;
+			position:absolute;
+			background:white;
+			border-radius:14px;
+			padding:8px;
+		    left: 50%;
+		    top: 50%;
+            transform: translate(-50%,-50%);
+		}
+
+		#content {
+             z-index: 3001;
+            height: auto;
+            min-height: 100%;
+            border-radius: 0;
+		}
+
+		#close {
+             z-index: 3001;
+			position:absolute;
+			width:24px;
+			height:27px;
+			display:block;
+			top:5px;
+			right:5px;
+			color: #000
+		}
+		.queryTable{
+		    background-color:#FFC0CB
+		}
+		.queryTable:hover{
+		    background-color:#ffc9d3
+		}
+		.queryTable:active{
+		    background-color:#f2bdc7
+		}
+		.searchButton{
+		    text-align: center;
+		    background-color:white;
+		    border:solid black thin;
+		    border-radius:10px;
+		}
+		.searchButton:hover{
+		    background-color:#ffc9d3;
+		}
+		.searchButton:active{
+		    background-color:#f2bdc7;
+		}
+	</style>
+
+<div id="" class="section section--global section--product">
+
+  <div class="container">
+    <div class="container">
+        <div class="card-body my-2 mx-auto w-75"> 
+            <div class="container my-2" style="text-align: center;">
+                <div class="card-body mx-auto w-75" style="border:solid black thin"> 
+                    <h2>Looking for a...</h2>
+                    <h2>Paper FLorist or Vendor/Supplier?</h2>
+                    <p style="font-size:16px">Search our Member Directory for the Perfect Collaborator!</p>
+                </div>
+            </div> 
+            <div class = "container" style="border:solid black thin">
+                <h5 style="text-align:center">I'm looking for:</h5>
+                <div class="container d-flex justify-content-center w-75 p-2">
+                    <div class="searchButton col-md-5" onclick="openFlorists()">Paper Florists</div>
+                    <div class="col-md-2" ></div>
+                    <div class="searchButton col-md-5" onclick="openVendors()">Vendor/Supplier</div
+                </div>
+            </div
+            
+         </div>
+    </div>
+  </div>
+  
+        <div id="dirTable" class="mt-4">
+        </div>
+</div>
+
+ 
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script>
+		  florist=`
+	<div id='testForm' class="Container">
+	 	<h2><i>I'm Looking for a: </i><b style="color:orange;font-size:48px;">PAPER FLORIST</b></h1>
+	    <Form id='placeForm' style="left:50%">
+    	    <div class="row" style="margin-top:10px">
+                  <p class="col-md-2" style="display:inline;">  In This <b>Location:</b></p>
+                  <input type="text" style="padding:0px;border-width:thin" id="country" name="country" placeholder="Country" class="col-md-3">
+                  <input type="text" style="padding:0px;border-width:thin" id="state" name="state" placeholder="State/Province/District" class="col-md-3">
+                  <input type="text" style="padding:0px;border-width:thin;" id="city" name="city" placeholder="city" class="col-md-3">
+            </div>
+        </Form>
+        
+        <Form id='styleForm'>
+            <div class="row">
+                   <Form>
+                    <p class="col-md-2" style="display:inline">  With This <b>Style:</b></p>
+                        
+                    <div class="col-md-2">
+                        <label for="Crepe" class="checkbox-inline">
+                        <input type="checkbox" id="Crepe" name="Crepe" value="Crepe Paper">
+                        Crepe paper</label>
+                    </div>
+                   
+                    <div class="col-md-2">
+                        <label for="Cardstock" class="checkbox-inline">
+                        <input type="checkbox" id="Cardstock" name="Cardstock" value="Cardstock">
+                        Cardstock</label>
+                    </div>
+                    <div class="col-md-2">    
+                      <input type="checkbox" id="Realistic" name="Realistic" value="Realistic">
+                      <label for="Realistic">Realistic</label>
+                    </div>
+                    <div class="col-md-2">  
+                        <input type="checkbox" id="Fantasy" name="Fantasy" value="Fantasy">
+                        <label for="Fantasy"> Fantasy</label>
+                    </div>
+            </div>
+                
+            <div class="row">
+                <p class="col-md-2" style="display:inline">  <i>(check all that apply)</i></p>
+                <div class="col-md-2">
+                    <label for="Wallflowers">
+                    <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Wallflowers">
+                     Wallflowers</label>
+                </div>
+               
+               <div class="col-md-2">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Large flowers on stands">
+                     Large flowers on stand</label>
+                </div>
+                
+                <div class="col-md-2">      
+                    <label for="XLarge">
+                    <input type="checkbox" id="XLarge" name="XLarge" value="Extra Large Installation">
+                     Extra large installations</label>
+                </div>
+                
+                <div class="col-md-2">
+                    <label for="OtherStyle">
+                    <input type="checkbox" id="OtherStyle" name="OtherStyle" value="OtherStyle">
+                     Other </label>
+                </div>
+            </div>
+        </Form>
+        
+        <Form  id='occasionForm'>
+           
+            <div class="row">
+                <p class="col-md-2" style="display:inline"> Who is</p>
+                    
+                <div class="col-md-2">
+                      <label for="Single">
+                      <input type="checkbox" id="Single" name="Single" value="Single stems">
+                       Single stems</label><br>
+                </div>
+                    
+                <div class="col-md-2">
+                    <label for="Wedding">
+                    <input type="checkbox" id="Wedding" name="Wedding" value="Weddings">
+                    Wedding</label><br>
+                </div>
+                  
+               <div class="col-md-2">
+                      <label for="Special">
+                      <input type="checkbox" id="Special" name="Special" value="Special Events">
+                      Special events</label><br>
+                </div>
+                  
+               <div class="col-md-2">
+                    <label for="Home">
+                    <input type="checkbox" id="Home" name="Home" value="Home Decor">
+                    Home decor</label><br>
+                </div>
+            </div>
+                
+            <div class="row">
+                <p class="col-md-2" style="display:inline"><b>available for</b></p>
+                
+               <div class="col-md-2">
+                    <label for="Commercial"> 
+                    <input type="checkbox" id="Commercial" name="Commercial" value="Commercial Collaborations">
+                    Commercial collaborations</label><br>
+                </div>
+                  
+                <div class="col-md-2">
+                      <label for="Window"> 
+                      <input type="checkbox" id="Window" name="Window" value="Window Displays">
+                      Window Display</label><br>
+                </div>
+                  
+                <div class="col-md-2">
+                      <label for="Store"> 
+                      <input type="checkbox" id="Store" name="Store" value="In-Store Displays">
+                      In-Store Display</label><br>
+                </div>
+                  
+                <div class="col-md-2">
+                      <label for="Wholesale">
+                      <input type="checkbox" id="Wholesale" name="Wholesale" value="Wholesale Orders">
+                       Wholesale orders </label>
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-md-2" style="display:inline"> <i>(check all that apply)</i></p>
+                    
+                <div class="col-md-2">
+                      <label for="Editorial">
+                      <input type="checkbox" id="Editorial" name="Editorial" value="Editorial Shoots">
+                       Editorial Shoot </label>
+                </div>
+                  
+                <div class="col-md-2">
+                      <input type="checkbox" id="OtherOccasion" name="OtherOccasion" value="OtherOccasion">
+                      <label for="OtherOccasion"> Other </label>
+               </div>
+            </div>
+        </Form>
+
+       <Form id='freshForm'>
+       
+         <div class="row">
+            <div class="col-md-10">
+             <input type="checkbox" id="Arrange" name="Arrange" value="Yes, I can arrange my paper flowers with fresh flowers and foliage">
+             <label for="Arrange"> Can arange paper flowers with fresh flowers and foliage </label>
+             </div>
+            </div>
+            
+            <div class="row">
+             <div class="col-md-10">
+             <input type="checkbox" id="Provide" name="Provide" value="Yes, I can provide single stems and work with a fresh flower florist">
+             <label for="Provide"> Can provide single stems and work with a fresh flower florist </label>
+             </div>
+            </div>  
+            
+            <div class="row">
+             <div class="col-md-10">
+             <label for="NotRelevant"> 
+             <input type="checkbox" id="NotRelevant" name="NotRelevant" value="No">
+            Not relevant </label>
+            </div>
+         </div>
+        </Form>
+        </Form>
+         <div class="d-flex justify-content-center queryTable"  onclick="constructFloristTable('#testTable')">
+		click here
+	    </div>
+    </div>`
+    
+       vendor=`
+	<div id='vendorForm' class="Container">
+	<h2><i>I'm Looking for a: </i><b style="color:orange;font-size:48px;">VENDOR/SUPPLIER</b></h1>
+	    <Form id='placeForm' style="left:50%">
+    	    <div class="row" style="margin-top:10px">
+                  <p class="col-md-2" style="display:inline;">  In This <b>Location:</b></p>
+                  <input type="text" style="padding:0px;border-width:thin" id="country" name="country" placeholder="Country" class="col-md-3">
+                  <input type="text" style="padding:0px;border-width:thin" id="state" name="state" placeholder="State/Province/District" class="col-md-3">
+                  <input type="text" style="padding:0px;border-width:thin;" id="city" name="city" placeholder="city" class="col-md-3">
+            </div>
+        </Form>
+        
+        <Form id='materialForm'>
+            <div class="row">
+                    <div class="col-md-2 mx-auto" >
+                        <p style="display:inline"> That <b>Sells</b></p>
+                        <p><i>(check all that apply)</i></p>
+                    </div>
+                    
+                    <div class="col-md-3 mx-auto" >
+                        <p>Italian Crepe Paper</p>
+                        <p><i>(Cartotecnica Rossi):</i></p>
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="180g" class="checkbox-inline">
+                            <input type="checkbox" name="180g" value="Italian crepe paper (Cartotecnia Rossi) - 180g">
+                            180g </label>
+                            <label for="90g" class="checkbox-inline">
+                            <input type="checkbox" name="90g" value="Italian crepe paper (Cartotecnia Rossi) - 90g">
+                             90g</label>
+                         </div>  
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="140g" class="checkbox-inline">
+                            <input type="checkbox"  name="140g" value="Italian crepe paper (Cartotecnia Rossi) - 140g">
+                            140g </label>
+                            <label for="60g" class="checkbox-inline">
+                            <input type="checkbox" name="60g" value="Italian crepe paper (Cartotecnia Rossi) - 60g">
+                             60g</label>
+                         </div>
+                    </div>
+                   
+                    <div class="col-md-3" >
+                        <p">German Crepe paper</p>
+                        <p> <i>(Werola/Dennison):</i></p>
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" name="Crepe" value="German crepe paper (Werola/Dennison) - Fine/Single-sided">
+                            Fine/Single-sided<i>(Dennison)</i> </label>
+                         </div>  
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" name="Crepe" value="German crepe paper (Werola/Dennison) - Doublette/Double-sided">
+                            Doublette/Double-sided </label>
+                         </div>
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" name="Crepe" value="German crepe paper (Werola/Dennison) - Heavy Florist">
+                            Heavy florist (Werola) </label>
+                         </div> 
+                    </div>
+                    <div class="col-md-2 mx-auto" >
+                        <p>Lia Griffith Branded Crepe paper:</p>
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" id="Crepe" name="Crepe" value="Lia Griffith branded crepe paper - Extra Fine">
+                            Extra Fine </label>
+                         </div>  
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" id="Crepe" name="Crepe" value="Lia Griffith branded crepe paper - Doublette">
+                            Doublette </label>
+                         </div>
+                         <div>
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" id="Crepe" name="Crepe" value="Lia Griffith branded crepe paper - Heavy Florist">
+                           Heavy Florist </label>
+                         </div> 
+                    </div>
+                    <div class="col-md-2 mx-auto" >
+                        <p>Floral/stem wire</p>
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" id="Crepe" name="Crepe" value="Floral/Stem wires - Bare wire">
+                            Bare/painted wire </label>
+                         </div>  
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" id="Crepe" name="Crepe" value="Floral/Stem wires - Paper wrapped">
+                            Paper wrapped </label>
+                         </div>
+                         <div class="col-md-12" style="padding:0px">
+                             <label for="Crepe" class="checkbox-inline">
+                            <input type="checkbox" id="Crepe" name="Crepe" value="Floral/Stem wires - Cloth wrapped">
+                           Cloth wrapped </label>
+                         </div> 
+                    </div>
+            </div>
+                
+            <div class="row">
+                <p class="col-md-2" style="display:inline"></p>
+                <div class="col-md-2">
+                    <label for="Wallflowers">
+                    <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Wallflowers">
+                     Chinese Crepe paper</label>
+                </div>
+               
+               <div class="col-md-2 mx-auto">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Tissue paper">
+                     Tissue paper</label>
+                </div>
+                
+                <div class="col-md-2 mx-auto">      
+                    <label for="XLarge">
+                    <input type="checkbox" id="XLarge" name="XLarge" value="General art supplies">
+                     General art supplies</label>
+                </div>
+                
+                <div class="col-md-2">
+                    <label for="OtherStyle">
+                    <input type="checkbox" id="OtherStyle" name="OtherStyle" value="Pastels">
+                     Pastels</label>
+                </div>
+                
+                <div class="col-md-2">
+                    <label for="Wallflowers">
+                    <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Design Master spray paints">
+                     Design Master</label>
+                </div>
+            </div>
+            <div class="row" >
+                <p class="col-md-2" style="display:inline"></p>
+                <div class="col-md-2">
+                    <label for="Wallflowers">
+                    <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Scissors">
+                     Scissors</label>
+                </div>
+               
+               <div class="col-md-2">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Floral tape">
+                     Floral tape</label>
+                </div>
+                
+                <div class="col-md-2">      
+                    <label for="XLarge">
+                    <input type="checkbox" id="XLarge" name="XLarge" value="Styrofoam balls">
+                     Styrofoam ball</label>
+                </div>
+                
+                <div class="col-md-2">
+                    <label for="OtherStyle">
+                    <input type="checkbox" id="OtherStyle" name="OtherStyle" value="Cardstock">
+                     Cardstock</label>
+                </div>
+                
+                <div class="col-md-2">
+                    <label for="Wallflowers">
+                    <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Spun cotton balls">
+                     Spun cotton ball</label>
+                </div>
+            </div>
+            <div class="row" >
+                <p class="col-md-2" style="display:inline"></p>
+                <div class="col-md-2">
+                    <label for="Wallflowers">
+                    <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Flower stamens">
+                     Flower stamens</label>
+                </div>
+               
+               <div class="col-md-2">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Floral supplies">
+                     Floral supllies</label>
+                </div>
+                <div class="col-md-2">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Paper Flower Tutorials/Online Courses">
+                     Paper flower tutorials</label>
+                </div>
+                <div class="col-md-2">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Kits - Paper flower kits">
+                     Floral Paper flower kits</label>
+                </div>
+                <div class="col-md-2">   
+                    <label for="Large">
+                    <input type="checkbox" id="Large" name="Large" value="Kits - Craft kits">
+                     Craft kits</label>
+                </div>
+                
+            </div>
+        </Form>
+        
+       
+            <div class = "container" style="padding:0px">
+               <div class="col-md-5">
+                    <form id='shipForm'>
+                        <div class="row">
+                            <p class="col-md-3" style="display:inline;padding-left:0px">that <b>Ship</b> to</p>
+                            <div class="col-md-3">
+                                <label for="Wallflowers">
+                                <input type="checkbox" id="Wallflowers" name="Wallflowers" value="USA">
+                                 USA</label>
+                            </div>
+                           
+                           <div class="col-md-3">   
+                                <label for="Large">
+                                <input type="checkbox" id="Large" name="Large" value="Alaska">
+                                 Alaska</label>
+                            </div>
+                            <div class="col-md-3">   
+                                <label for="Large">
+                                <input type="checkbox" id="Large" name="Large" value="Asia">
+                                Asia</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="col-md-3" style="display:inline;padding-left:0px"><i>(check all that apply)</i></p>
+                            <div class="col-md-3">
+                                <label for="Wallflowers">
+                                <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Hawaii">
+                                 Hawaii</label>
+                            </div>
+                           
+                           <div class="col-md-3">   
+                                <label for="Large">
+                                <input type="checkbox" id="Large" name="Large" value="Canada">
+                                 Canada</label>
+                            </div>
+                            <div class="col-md-3">   
+                                <label for="Large">
+                                <input type="checkbox" id="Large" name="Large" value="Africa">
+                                Africa</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="col-md-3" style="display:inline;padding-left:0px"></p>
+                            <div class="col-md-3">
+                                <label for="Wallflowers">
+                                <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Puerto Rico">
+                                 Puerto Rico</label>
+                            </div>
+                           
+                           <div class="col-md-3">   
+                                <label for="Large">
+                                <input type="checkbox" id="Large" name="Large" value="Europe">
+                                 Europe</label>
+                            </div>
+                            <div class="col-md-3">   
+                                <label for="Large">
+                                <input type="checkbox" id="Large" name="Large" value="Australia">
+                                Australia</label>
+                            </div>
+                        </div>
+                    </form>
+               </div>
+           <div class = "col-md-6">
+                <form id='retailForm'>
+                    <div class="row">
+                        <p class="col-md-3" style="display:inline;padding-left:0px"><i>That <b>Offer</b></i></p>
+                        <div class="col-md-8">
+                            <label for="Wallflowers">
+                            <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Retail Pricing">
+                             Retail Pricing</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-md-3" style="display:inline;padding-left:0px"><i>(check all that apply)</i></p>
+                        <div class="col-md-8">
+                            <label for="Wallflowers">
+                            <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Wholesale available with minimum purchase">
+                             Wholesale with minimum purchase</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-md-3" style="display:inline;padding-left:0px"></p>
+                        <div class="col-md-8">
+                            <label for="Wallflowers">
+                            <input type="checkbox" id="Wallflowers" name="Wallflowers" value="Wholesale available with no minimum purchase">
+                             Wholesale with no minimum purchase</label>
+                        </div>
+                    </div>
+                </form>
+           </div>
+        </Form>
+    </div>
+ <div class="d-flex justify-content-center queryTable"  onclick="constructVendorTable('#testTable')">
+		click here
+	    </div>
+    </div>`
+		
+		
+		
+
+			var modal = (function(){
+				var 
+				method = {},
+				$overlay,
+				$modal,
+				$content,
+				$close;
+
+				// Open the modal
+				method.open = function (settings) {
+					$content.empty().append(settings.content);
+
+				
+
+					$(window).bind('resize.modal', method.center);
+					$modal.show();
+					$overlay.show();
+				};
+
+				// Close the modal
+				method.close = function () {
+					$modal.hide();
+					$overlay.hide();
+					$content.empty();
+					$(window).unbind('resize.modal');
+				};
+
+				// Generate the HTML and add it to the document
+				$overlay = $('<div id="overlay"></div>');
+				$modal = $('<div id="modal"></div>');
+				$content = $('<div id="content"></div>');
+				$close = $('<a id="close" href="#">&times;</a>');
+
+				$modal.hide();
+				$overlay.hide();
+				$modal.append($content, $close);
+
+				$(document).ready(function(){
+					$('body').append($overlay, $modal);						
+				});
+
+				$close.click(function(e){
+					e.preventDefault();
+					method.close();
+				});
+
+				return method;
+			}());
+
+			// Wait until the DOM has loaded before querying the document
+    		window.onload = function() {
+              modal.open({content: vendor});
+            };
+			console.log("yo")
+		</script>
+	</head>
+     
+ 
+	
+    
+<!-- Added ====================================================== -->
+    <script>
+       function openFlorists(){
+           modal.open({content: florist});
+       }
+       function openVendors(){
+           modal.open({content: vendor});
+       }
+      
+        function queryFlorists(){
+          
+          var place = $('#placeForm').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+        
+         console.log(place)
+          var styles = $('#styleForm').serializeArray();
+         
+         console.log(styles);
+         
+          var occasions = $('#occasionForm').serializeArray();
+          var fresh = $('#freshForm').serializeArray();
+           
+           var query = floristTable
+            if(place["country"])
+            {
+               query = query.filter(florist => florist.Country==place["country"]);
+            }
+             if(place["state"])
+            {
+               query = query.filter(florist => florist.State==place["state"]);
+            }
+             if(place["city"])
+            {
+               query = query.filter(florist => florist.City==place["city"]);
+            }
+            
+            
+            if(styles.length > 0)
+            {
+                query =query.filter(function(florist) {
+                for(var i = 0; i < styles.length; i+= 1)
+                {
+                    var floristStyles = florist.Styles.split(";")
+                    if(!floristStyles.includes(styles[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+             if(occasions.length > 0)
+            {
+                query =query.filter(function(florist) {
+                for(var i = 0; i < occasions.length; i+= 1)
+                {
+                    if(!florist.Occasions.includes(occasions[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+            if(fresh.length > 0)
+            {
+                query =query.filter(function(florist) {
+                for(var i = 0; i < fresh.length; i+= 1)
+                {
+                    if(!florist.Fresh.includes(fresh[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+            return query
+        }
+        
+
+		function constructFloristTable(selector) {
+		 
+		     document.getElementById("dirTable").innerHTML = '';
+		    
+		    var list = queryFlorists()
+		    var countrySort = new Object();
+		    
+            	for (var i = 0; i < list.length; i++) {
+
+			     var State = document.createElement('H1');
+        		 State.innerHTML = list[i]["City"] +"," + list[i]["State"]
+        		 State.style.color = "pink";
+        		$("#dirTable").append(State)
+        		
+			    var div = document.createElement('div');
+                div.setAttribute('class', 'm-3');
+                div.className += " p-3";
+			    div.innerHTML += "<b>" + list[i]["Business"] + "</b>";
+			    div.innerHTML += ", " + list[i]["Name"]+ "<br><br>";
+			    
+			    div.innerHTML += "Email: " + list[i]["Email"];
+			    div.innerHTML +=  " | Website:" + list[i]["Website"];
+			    div.innerHTML +=  " | " + list[i]["Instagram"] + "<br><br>";
+			    
+			    div.innerHTML += "<b>Paper Flower Style: </b>" + list[i]["Styles"].toString() + "<br><br>";
+			    div.innerHTML += "<b>Available For: </b>" + list[i]["Occasions"].toString() + "<br><br>";
+			    div.innerHTML += "<b>Can: </b>" + list[i]["Fresh"].toString() + "<br><br>";
+			    
+			    div.style.borderStyle = "solid";
+			    div.style.borderColor = "pink";
+			    div.style.borderWidth= "5px";
+				$("#dirTable").append(div)
+			
+            }
+		
+		}
+		
+		 function queryVendors(){
+          
+          var place = $('#placeForm').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+        
+         console.log(place)
+          var materials = $('#materialForm').serializeArray();
+         
+          var ship = $('#shipForm').serializeArray();
+         console.log(ship);
+          var retail = $('#retailForm').serializeArray();
+         console.log(retail);
+           
+           var query = vendorTable
+            if(place["country"])
+            {
+               query = query.filter(vendor => vendor.Country==place["country"]);
+            }
+             if(place["state"])
+            {
+               query = query.filter(vendor => vendor.State==place["state"]);
+            }
+             if(place["city"])
+            {
+               query = query.filter(vendor => vendor.City==place["city"]);
+            }
+            
+            
+            if(materials.length > 0)
+            {
+                query =query.filter(function(vendor) {
+                for(var i = 0; i < materials.length; i+= 1)
+                {
+                    var materialStyles = vendor.Materials.split(";")
+                    if(!materialStyles.includes(materials[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+             if(ship.length > 0)
+            {
+                query =query.filter(function(vendor) {
+                for(var i = 0; i < ship.length; i+= 1)
+                {
+                    if(!vendor.ShipPlace.includes(ship[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+            if(retail.length > 0)
+            {
+                query =query.filter(function(vendor) {
+                for(var i = 0; i < retail.length; i+= 1)
+                {
+                    if(!vendor.Retail.includes(retail[i].value))
+                    {
+                        return false;
+                    }
+                }
+                    return true;
+                })
+            }
+            
+            return query
+        }
+        
+
+		function constructVendorTable(selector) {
+		 
+		     document.getElementById("dirTable").innerHTML = '';
+		    
+		    var list = queryVendors()
+		    console.log(list)
+		    var countrySort = new Object();
+		    
+            	for (var i = 0; i < list.length; i++) {
+
+			     var State = document.createElement('H1');
+        		 State.innerHTML = list[i]["City"] +"," + list[i]["State"]
+        		 State.style.color = "pink";
+        		$("#dirTable").append(State)
+        		
+			    var div = document.createElement('div');
+                div.setAttribute('class', 'm-3');
+                div.className += " p-3";
+			    div.innerHTML += "<b>" + list[i]["Business"] + "</b>";
+			    
+			    div.innerHTML += "Email: " + list[i]["Email"];
+			    div.innerHTML +=  " | Website:" + list[i]["Website"];
+			    div.innerHTML +=  " | " + list[i]["Instagram"] + "<br><br>";
+			    
+			    div.innerHTML += "<b>Sells: </b>" + list[i]["Materials"].toString() + "<br><br>";
+			    div.innerHTML += "<b>Ships to: </b>" + list[i]["Ship"].toString() + "<br><br>";
+			    div.innerHTML += "<b>Offers: </b>" + list[i]["Retail"].toString() + "<br><br>";
+			    
+			    div.style.borderStyle = "solid";
+			    div.style.borderColor = "pink";
+			    div.style.borderWidth= "5px";
+				$("#dirTable").append(div)
+			
+            }
+		
+		}
+
+
+	</script>
