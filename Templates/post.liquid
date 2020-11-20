@@ -88,7 +88,6 @@
    }
  </style>
 <div id="" class="section section--global section--product">
-
  <div class="container" style="padding:0px">
    <div id="searchBody">
    </div>
@@ -100,9 +99,10 @@
  </div>
 </div>
 
-
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
    <script>
+   var floristLink = "https://www.paperflowereducation.com/products/member-directory-search/categories/3440584/posts/11486395"
+   var vendorLink = "https://www.paperflowereducation.com/products/member-directory-search/categories/3440584/posts/11594642"
+   
      florist=`
    <div id='floristForm' class="Container" style="margin-top:20px;">
     <Form id='placeForm' class="d-flex justify-content-center formArea" style="margin:0px">
@@ -172,7 +172,7 @@
            state.append(option)
            states.push("")
            if(value==""){
-               if(window.location.href == "https://www.thepaperflorists.org/products/member-directory-search/categories/3440584/posts/11594642"){
+               if(window.location.href == vendorLink){
                    for(var i = 0; i < vendorTable.length; i++){
                        var val = vendorTable[i].State.toUpperCase().trim()
                        if(!states.includes(val)){
@@ -185,7 +185,7 @@
                        }
                    }
                }
-               else if(window.location.href == "https://www.thepaperflorists.org/products/member-directory-search/categories/3440584/posts/11486395"){
+               else if(window.location.href == floristLink){
                   for(var i = 0; i < floristTable.length; i++){
                        var val = floristTable[i].State.toUpperCase().trim()
                        if(!states.includes(val)){
@@ -201,7 +201,7 @@
                return
            }
 
-           if(window.location.href == "https://www.thepaperflorists.org/products/member-directory-search/categories/3440584/posts/11594642"){
+           if(window.location.href == vendorLink){
                for(var i = 0; i < vendorTable.length; i++){
                        if(vendorTable[i].Country == value){
                            var val = vendorTable[i].State.toUpperCase().trim()
@@ -217,8 +217,7 @@
                    }
                }
            }
-           else if(window.location.href == "https://www.thepaperflorists.org/products/member-directory-search/categories/3440584/posts/11486395"){
-
+           else if(window.location.href == floristLink){
                for(var i = 0; i < floristTable.length; i++){
                    if(floristTable[i].Country == value){
                        var val = floristTable[i].State.toUpperCase().trim()
@@ -236,7 +235,7 @@
            }
        }
 
-       if(window.location.href == "https://www.thepaperflorists.org/products/member-directory-search/categories/3440584/posts/11594642"){
+       if(window.location.href == vendorLink){
            $('#searchBody').append(vendor)
 
              var country = $('#country')
@@ -280,7 +279,7 @@
                }
            }
        }
-       else if(window.location.href == "https://www.thepaperflorists.org/products/member-directory-search/categories/3440584/posts/11486395"){
+       else if(window.location.href == floristLink){
             $('#searchBody').append(florist)
            var country = $('#country')
            var countries = []
